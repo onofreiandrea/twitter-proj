@@ -40,8 +40,23 @@ This script fetches tweets from Twitter using Selenium automation. It reads twee
 - Python 3.x
 - Chrome browser installed
 - ChromeDriver (matching your Chrome version)
+- Selenium (installed via pip)
 
 ## Installation
+
+### For Mac Users
+
+1. Install ChromeDriver:
+```bash
+brew install --cask chromedriver
+```
+
+2. Install required Python packages:
+```bash
+pip3 install -r requirements.txt
+```
+
+### For Other Operating Systems
 
 1. Install the required Python packages:
 ```bash
@@ -52,25 +67,18 @@ pip install -r requirements.txt
 
 3. Download ChromeDriver that matches your Chrome version from: https://sites.google.com/chromium.org/driver/
 
-## Input File Format
-
-The script expects a file named `jobs-tweetids` in the same directory. The file should contain tweet IDs in the following format:
-```
-user_id tweet_id
-user_id tweet_id
-...
-```
-
 ## Usage
 
 Run the script:
 ```bash
-python fetch_user_tweets.py
+python3 fetch_user_tweets.py  # For Mac
+# or
+python fetch_user_tweets.py   # For other systems
 ```
 
 The script will:
 1. Prompt for your Twitter username/email and password
-2. Read tweet IDs from `jobs-tweetids`
+2. Read tweet IDs from the input file
 3. Fetch tweets using Selenium
 4. Save progress to `user_tweets_progress.json`
 
