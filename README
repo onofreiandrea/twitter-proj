@@ -30,3 +30,71 @@ If you are using this dataset, please cite:
 	series = {ACL},
 	author = {Preo\c{t}iuc-Pietro, Daniel and Lampos, Vasileios and Aletras, Nikolaos}
 }
+
+# Twitter Tweet Fetcher
+
+This script fetches tweets from Twitter using Selenium automation. It reads tweet IDs from a file and attempts to fetch the content of each tweet.
+
+## Requirements
+
+- Python 3.x
+- Chrome browser installed
+- ChromeDriver (matching your Chrome version)
+
+## Installation
+
+1. Install the required Python packages:
+```bash
+pip install -r requirements.txt
+```
+
+2. Make sure you have Chrome browser installed
+
+3. Download ChromeDriver that matches your Chrome version from: https://sites.google.com/chromium.org/driver/
+
+## Input File Format
+
+The script expects a file named `jobs-tweetids` in the same directory. The file should contain tweet IDs in the following format:
+```
+user_id tweet_id
+user_id tweet_id
+...
+```
+
+## Usage
+
+Run the script:
+```bash
+python fetch_user_tweets.py
+```
+
+The script will:
+1. Prompt for your Twitter username/email and password
+2. Read tweet IDs from `jobs-tweetids`
+3. Fetch tweets using Selenium
+4. Save progress to `user_tweets_progress.json`
+
+## Notes
+
+- The script includes rate limiting and retry mechanisms to avoid being blocked
+- Progress is saved after each user is processed
+- If the script is interrupted, it will resume from where it left off
+- Maximum 21 tweets are fetched per user
+- A new browser session is created after every 100 tweets
+
+## Output
+
+The script creates a JSON file `user_tweets_progress.json` containing the fetched tweets in the following format:
+```json
+{
+  "user_id": [
+    {
+      "id": "tweet_id",
+      "text": "tweet_text",
+      "url": "tweet_url"
+    },
+    ...
+  ],
+  ...
+}
+```
