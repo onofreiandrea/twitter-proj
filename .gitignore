@@ -1,7 +1,8 @@
 # Large data files
 *.json
 *.csv
-jobs-*
+jobs-unigrams
+jobs-users
 dictionary
 
 # Python
