@@ -164,16 +164,11 @@ def main():
             failed_attempts = 0
             MAX_FAILED_ATTEMPTS = 5  # Skip user after this many failed attempts
             tweets_fetched_for_user = 0
-            MAX_TWEETS_PER_USER = 21  # Limit tweets per user
+            MAX_TWEETS_PER_USER = 20  # Target number of tweets we want
             
-            # Randomly select tweets for this user
-            if len(tweet_ids) > MAX_TWEETS_PER_USER:
-                print(f"User has {len(tweet_ids)} tweets, randomly selecting {MAX_TWEETS_PER_USER}")
-                tweet_ids = random.sample(tweet_ids, MAX_TWEETS_PER_USER)
-            
-            # Keep track of which tweets we've tried
+            # Get all available tweets for this user
+            available_tweets = tweet_ids.copy()
             tried_tweets = set()
-            current_tweet_index = 0
             
             # Process tweets until we have 20 or hit max failures
             while tweets_fetched_for_user < MAX_TWEETS_PER_USER and failed_attempts < MAX_FAILED_ATTEMPTS:
@@ -188,18 +183,14 @@ def main():
                         return
                     tweets_in_session = 0
                 
-                # Get next untried tweet
-                while current_tweet_index < len(tweet_ids) and tweet_ids[current_tweet_index] in tried_tweets:
-                    current_tweet_index += 1
-                
-                # If we've tried all tweets, break
-                if current_tweet_index >= len(tweet_ids):
+                # If we've tried all available tweets, break
+                if not available_tweets:
                     print(f"No more tweets to try for user {user_id}")
                     break
                 
-                tid = tweet_ids[current_tweet_index]
+                # Get next untried tweet
+                tid = available_tweets.pop()
                 tried_tweets.add(tid)
-                current_tweet_index += 1
                 
                 tweet = fetch_tweet_with_retry(driver, tid)
                 if tweet:
